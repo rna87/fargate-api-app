@@ -1,0 +1,65 @@
+- name: Get the current caller identity information
+  amazon.aws.aws_caller_info:
+  register: caller_info
+
+- name: Set Fact the Account
+  set_fact:
+    aws_account: "{{ caller_info.account }}"
+
+- name: Substitute tfvars
+  template:
+    src: templates/tfvars.j2
+    dest: "{{ playbook_dir }}/tf/config.yaml"
+
+- name: Init Terraform
+  shell: |
+    cd {{ playbook_dir }}/tf;
+    terraform init    
+  when: (operation == "init")
+  register: init
+
+- name: "Display output: Init Terraform"
+  debug:
+    msg: "{{ (init.stdout | regex_replace('\\u001b.*0m', '')|trim).split('\n') }}"
+  when: (operation == "init")
+
+- name: Plan Resources - Plan
+  shell: |
+    cd {{ playbook_dir }}/tf;
+    terraform workspace new {{ env }}
+    terraform workspace select {{ env }}
+    terraform plan;    
+  when: (operation == "plan")
+  register: plan
+
+- name: "Display output: Plan Resources - Plan"
+  debug:
+    msg: "{{ (plan.stdout | regex_replace('\\u001b.*0m', '')|trim).split('\n') }}"
+  when: (operation == "plan")
+
+- name: Create Resources - Apply
+  shell: |
+    cd {{ playbook_dir }}/tf;
+    terraform workspace select {{ env }}
+    terraform apply -auto-approve    
+  when: (operation == "apply")
+  register: apply
+
+- name: "Display Output: Create Resources - Apply"
+  debug:
+    msg: "{{  (apply.stdout | regex_replace('\\u001b.*0m', '')|trim).split('\n') }}"
+  when: (operation == "apply")
+
+- name: Destroy Resources
+  shell: |
+    cd {{ playbook_dir }}/tf;
+    terraform workspace new {{ env }}
+    terraform workspace select {{ env }}
+    terraform destroy -auto-approve    
+  when: (operation == "destroy")
+  register: destroy
+
+- name: "Display Output: Destroy Resources"
+  debug:
+    msg: "{{  (destroy.stdout | regex_replace('\\u001b.*0m', '')|trim).split('\n') }}"
+  when: (operation == "destroy")

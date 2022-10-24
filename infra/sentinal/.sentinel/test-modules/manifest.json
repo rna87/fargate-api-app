@@ -1,0 +1,46 @@
+{
+	"records": [
+		{
+			"key": "test/limit-cost-and-percentage-increase/pass/tfrun",
+			"source": "../../mocks/tfrun-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfrun-functions.sentinel"
+		},
+		{
+			"key": "test/limit-cost-and-percentage-increase/pass/tfrun-functions",
+			"source": "../../mocks/tfrun-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfrun-functions.sentinel"
+		},
+		{
+			"key": "test/vpc-dns-support/fail/tfplan-functions",
+			"source": "../../mocks/tfplan-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfplan-functions.sentinel"
+		},
+		{
+			"key": "test/vpc-dns-support/pass/tfplan-functions",
+			"source": "../../mocks/tfplan-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfplan-functions.sentinel"
+		},
+		{
+			"key": "test/limit-cost-and-percentage-increase/fail/tfrun-functions",
+			"source": "../../mocks/tfrun-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfrun-functions.sentinel"
+		},
+		{
+			"key": "test/enforce-ssh-disabled/pass/tfplan-functions",
+			"source": "../../mocks/tfplan-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfplan-functions.sentinel"
+		},
+		{
+			"key": "test/enforce-ssh-disabled/fail/tfplan-functions",
+			"source": "../../mocks/tfplan-functions.sentinel",
+			"sourceSum": "",
+			"dest": "/Users/ranaalwakil/Documents/Github/fargate-api/infra/sentinal/mocks/tfplan-functions.sentinel"
+		}
+	]
+}

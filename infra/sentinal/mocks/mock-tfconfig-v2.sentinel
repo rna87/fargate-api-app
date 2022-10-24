@@ -1,0 +1,1396 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias": "",
+		"config": {
+			"region": {
+				"references": [
+					"local.config[\"aws_region\"]",
+					"local.config",
+				],
+			},
+		},
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  ">= 4.0.0",
+	},
+	"local": {
+		"alias":               "",
+		"config":              {},
+		"full_name":           "registry.terraform.io/hashicorp/local",
+		"module_address":      "",
+		"name":                "local",
+		"provider_config_key": "local",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"data.local_file.config": {
+		"address": "data.local_file.config",
+		"config": {
+			"filename": {
+				"constant_value": "./config.yaml",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "",
+		"name":                "config",
+		"provider_config_key": "local",
+		"provisioners":        [],
+		"type":                "local_file",
+	},
+	"module.fargate_cluster.aws_apigatewayv2_api.main": {
+		"address": "module.fargate_cluster.aws_apigatewayv2_api.main",
+		"config": {
+			"cors_configuration": [
+				{
+					"allow_headers": {
+						"constant_value": [
+							"*",
+						],
+					},
+					"allow_methods": {
+						"constant_value": [
+							"*",
+						],
+					},
+					"allow_origins": {
+						"constant_value": [
+							"*",
+						],
+					},
+				},
+			],
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"protocol_type": {
+				"constant_value": "HTTP",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_apigatewayv2_api",
+	},
+	"module.fargate_cluster.aws_apigatewayv2_integration.main": {
+		"address": "module.fargate_cluster.aws_apigatewayv2_integration.main",
+		"config": {
+			"api_id": {
+				"references": [
+					"aws_apigatewayv2_api.main.id",
+					"aws_apigatewayv2_api.main",
+				],
+			},
+			"connection_id": {
+				"references": [
+					"var.network_stack_vpclink_id",
+				],
+			},
+			"connection_type": {
+				"constant_value": "VPC_LINK",
+			},
+			"integration_method": {
+				"constant_value": "ANY",
+			},
+			"integration_type": {
+				"constant_value": "HTTP_PROXY",
+			},
+			"integration_uri": {
+				"references": [
+					"aws_service_discovery_service.main.arn",
+					"aws_service_discovery_service.main",
+				],
+			},
+			"payload_format_version": {
+				"constant_value": "1.0",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_apigatewayv2_integration",
+	},
+	"module.fargate_cluster.aws_apigatewayv2_route.default_route": {
+		"address": "module.fargate_cluster.aws_apigatewayv2_route.default_route",
+		"config": {
+			"api_id": {
+				"references": [
+					"aws_apigatewayv2_api.main.id",
+					"aws_apigatewayv2_api.main",
+				],
+			},
+			"route_key": {
+				"constant_value": "ANY /{proxy+}",
+			},
+			"target": {
+				"references": [
+					"aws_apigatewayv2_integration.main.id",
+					"aws_apigatewayv2_integration.main",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "default_route",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_apigatewayv2_route",
+	},
+	"module.fargate_cluster.aws_apigatewayv2_stage.Default": {
+		"address": "module.fargate_cluster.aws_apigatewayv2_stage.Default",
+		"config": {
+			"api_id": {
+				"references": [
+					"aws_apigatewayv2_api.main.id",
+					"aws_apigatewayv2_api.main",
+				],
+			},
+			"auto_deploy": {
+				"constant_value": true,
+			},
+			"name": {
+				"constant_value": "$default",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "Default",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_apigatewayv2_stage",
+	},
+	"module.fargate_cluster.aws_cloudwatch_log_group.main": {
+		"address": "module.fargate_cluster.aws_cloudwatch_log_group.main",
+		"config": {
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"retention_in_days": {
+				"constant_value": 30,
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_cloudwatch_log_group",
+	},
+	"module.fargate_cluster.aws_cloudwatch_log_stream.main": {
+		"address": "module.fargate_cluster.aws_cloudwatch_log_stream.main",
+		"config": {
+			"log_group_name": {
+				"references": [
+					"aws_cloudwatch_log_group.main.name",
+					"aws_cloudwatch_log_group.main",
+				],
+			},
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_cloudwatch_log_stream",
+	},
+	"module.fargate_cluster.aws_ecs_cluster.main": {
+		"address": "module.fargate_cluster.aws_ecs_cluster.main",
+		"config": {
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_ecs_cluster",
+	},
+	"module.fargate_cluster.aws_ecs_service.main": {
+		"address": "module.fargate_cluster.aws_ecs_service.main",
+		"config": {
+			"cluster": {
+				"references": [
+					"aws_ecs_cluster.main.name",
+					"aws_ecs_cluster.main",
+				],
+			},
+			"desired_count": {
+				"constant_value": 2,
+			},
+			"launch_type": {
+				"constant_value": "FARGATE",
+			},
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"network_configuration": [
+				{
+					"assign_public_ip": {
+						"constant_value": false,
+					},
+					"security_groups": {
+						"references": [
+							"aws_security_group.ecs_service.id",
+							"aws_security_group.ecs_service",
+						],
+					},
+					"subnets": {
+						"references": [
+							"var.private_subnet_ids",
+						],
+					},
+				},
+			],
+			"service_registries": [
+				{
+					"port": {
+						"constant_value": "8080",
+					},
+					"registry_arn": {
+						"references": [
+							"aws_service_discovery_service.main.arn",
+							"aws_service_discovery_service.main",
+						],
+					},
+				},
+			],
+			"task_definition": {
+				"references": [
+					"aws_ecs_task_definition.app.family",
+					"aws_ecs_task_definition.app",
+					"aws_ecs_task_definition.app.revision",
+					"aws_ecs_task_definition.app",
+					"data.aws_ecs_task_definition.app.revision",
+					"data.aws_ecs_task_definition.app",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_ecs_service",
+	},
+	"module.fargate_cluster.aws_ecs_task_definition.app": {
+		"address": "module.fargate_cluster.aws_ecs_task_definition.app",
+		"config": {
+			"container_definitions": {
+				"references": [
+					"var.containter_name",
+					"var.image_uri",
+					"aws_cloudwatch_log_group.main.name",
+					"aws_cloudwatch_log_group.main",
+					"var.app_port",
+					"var.app_port",
+					"var.environment",
+				],
+			},
+			"cpu": {
+				"constant_value": "512",
+			},
+			"execution_role_arn": {
+				"references": [
+					"aws_iam_role.ecs_task_execution_role.arn",
+					"aws_iam_role.ecs_task_execution_role",
+				],
+			},
+			"family": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"memory": {
+				"constant_value": "1024",
+			},
+			"network_mode": {
+				"constant_value": "awsvpc",
+			},
+			"requires_compatibilities": {
+				"constant_value": [
+					"FARGATE",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+			"task_role_arn": {
+				"references": [
+					"aws_iam_role.task_definition_task_role.arn",
+					"aws_iam_role.task_definition_task_role",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "app",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_ecs_task_definition",
+	},
+	"module.fargate_cluster.aws_iam_role.ecs_task_execution_role": {
+		"address": "module.fargate_cluster.aws_iam_role.ecs_task_execution_role",
+		"config": {
+			"assume_role_policy": {
+				"constant_value": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ecs-tasks.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\n",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "ecs_task_execution_role",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_iam_role",
+	},
+	"module.fargate_cluster.aws_iam_role.task_definition_task_role": {
+		"address": "module.fargate_cluster.aws_iam_role.task_definition_task_role",
+		"config": {
+			"assume_role_policy": {
+				"constant_value": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ecs-tasks.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\n",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "task_definition_task_role",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_iam_role",
+	},
+	"module.fargate_cluster.aws_iam_role_policy.app_policy": {
+		"address": "module.fargate_cluster.aws_iam_role_policy.app_policy",
+		"config": {
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"policy": {
+				"references": [
+					"data.aws_iam_policy_document.app_policy.json",
+					"data.aws_iam_policy_document.app_policy",
+				],
+			},
+			"role": {
+				"references": [
+					"aws_iam_role.ecs_task_execution_role.id",
+					"aws_iam_role.ecs_task_execution_role",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "app_policy",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_iam_role_policy",
+	},
+	"module.fargate_cluster.aws_security_group.ecs_service": {
+		"address": "module.fargate_cluster.aws_security_group.ecs_service",
+		"config": {
+			"description": {
+				"constant_value": "security group for fargate tasks",
+			},
+			"egress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "Allow all outbound traffic by default",
+						"from_port":        0,
+						"ipv6_cidr_blocks": null,
+						"prefix_list_ids":  null,
+						"protocol":         "-1",
+						"security_groups":  null,
+						"self":             null,
+						"to_port":          0,
+					},
+				],
+			},
+			"ingress": {
+				"references": [
+					"var.vpc_cidr_block",
+					"var.vpc_ling_sg",
+				],
+			},
+			"name": {
+				"references": [
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"var.vpc_id",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "ecs_service",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+	"module.fargate_cluster.aws_service_discovery_service.main": {
+		"address": "module.fargate_cluster.aws_service_discovery_service.main",
+		"config": {
+			"dns_config": [
+				{
+					"dns_records": [
+						{
+							"ttl": {
+								"constant_value": 60,
+							},
+							"type": {
+								"constant_value": "SRV",
+							},
+						},
+					],
+					"namespace_id": {
+						"references": [
+							"var.fargate_namespace_id",
+						],
+					},
+					"routing_policy": {
+						"constant_value": "MULTIVALUE",
+					},
+				},
+			],
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.fargate_cluster",
+		"name":                "main",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_service_discovery_service",
+	},
+	"module.fargate_cluster.data.aws_ecs_task_definition.app": {
+		"address": "module.fargate_cluster.data.aws_ecs_task_definition.app",
+		"config": {
+			"task_definition": {
+				"references": [
+					"aws_ecs_task_definition.app.family",
+					"aws_ecs_task_definition.app",
+				],
+			},
+		},
+		"count": {},
+		"depends_on": [
+			"aws_ecs_task_definition.app",
+		],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.fargate_cluster",
+		"name":                "app",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_ecs_task_definition",
+	},
+	"module.fargate_cluster.data.aws_iam_policy_document.app_policy": {
+		"address": "module.fargate_cluster.data.aws_iam_policy_document.app_policy",
+		"config": {
+			"statement": [
+				{
+					"actions": {
+						"constant_value": [
+							"ecr:GetAuthorizationToken",
+							"ecr:BatchCheckLayerAvailability",
+							"ecr:GetDownloadUrlForLayer",
+							"ecr:BatchGetImage",
+							"logs:CreateLogStream",
+							"logs:PutLogEvents",
+						],
+					},
+					"resources": {
+						"constant_value": [
+							"*",
+						],
+					},
+				},
+			],
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.fargate_cluster",
+		"name":                "app_policy",
+		"provider_config_key": "module.fargate_cluster:aws",
+		"provisioners":        [],
+		"type":                "aws_iam_policy_document",
+	},
+	"module.networking.aws_apigatewayv2_vpc_link.main": {
+		"address": "module.networking.aws_apigatewayv2_vpc_link.main",
+		"config": {
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"security_group_ids": {
+				"references": [
+					"aws_security_group.main.id",
+					"aws_security_group.main",
+				],
+			},
+			"subnet_ids": {
+				"references": [
+					"data.aws_subnets.main.ids",
+					"data.aws_subnets.main",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_apigatewayv2_vpc_link",
+	},
+	"module.networking.aws_eip.nat": {
+		"address": "module.networking.aws_eip.nat",
+		"config": {
+			"vpc": {
+				"constant_value": true,
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "nat",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_eip",
+	},
+	"module.networking.aws_internet_gateway.main": {
+		"address": "module.networking.aws_internet_gateway.main",
+		"config": {
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_internet_gateway",
+	},
+	"module.networking.aws_nat_gateway.nat-gw": {
+		"address": "module.networking.aws_nat_gateway.nat-gw",
+		"config": {
+			"allocation_id": {
+				"references": [
+					"aws_eip.nat.id",
+					"aws_eip.nat",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"aws_subnet.public_subnet.id",
+					"aws_subnet.public_subnet",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+		},
+		"count": {},
+		"depends_on": [
+			"aws_internet_gateway.main",
+		],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "nat-gw",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_nat_gateway",
+	},
+	"module.networking.aws_route_table.main": {
+		"address": "module.networking.aws_route_table.main",
+		"config": {
+			"route": {
+				"references": [
+					"aws_internet_gateway.main.id",
+					"aws_internet_gateway.main",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_route_table",
+	},
+	"module.networking.aws_route_table.private_route": {
+		"address": "module.networking.aws_route_table.private_route",
+		"config": {
+			"route": {
+				"references": [
+					"aws_nat_gateway.nat-gw.id",
+					"aws_nat_gateway.nat-gw",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "private_route",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_route_table",
+	},
+	"module.networking.aws_route_table_association.main": {
+		"address": "module.networking.aws_route_table_association.main",
+		"config": {
+			"route_table_id": {
+				"references": [
+					"aws_route_table.main.id",
+					"aws_route_table.main",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"aws_subnet.public_subnet.id",
+					"aws_subnet.public_subnet",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_route_table_association",
+	},
+	"module.networking.aws_route_table_association.nat": {
+		"address": "module.networking.aws_route_table_association.nat",
+		"config": {
+			"route_table_id": {
+				"references": [
+					"aws_route_table.private_route.id",
+					"aws_route_table.private_route",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"aws_subnet.private_subnet.id",
+					"aws_subnet.private_subnet",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "nat",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_route_table_association",
+	},
+	"module.networking.aws_security_group.main": {
+		"address": "module.networking.aws_security_group.main",
+		"config": {
+			"description": {
+				"constant_value": "Allow hhtp",
+			},
+			"egress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      null,
+						"from_port":        0,
+						"ipv6_cidr_blocks": null,
+						"prefix_list_ids":  null,
+						"protocol":         "-1",
+						"security_groups":  null,
+						"self":             null,
+						"to_port":          0,
+					},
+				],
+			},
+			"ingress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "HTTP",
+						"from_port":        8080,
+						"ipv6_cidr_blocks": null,
+						"prefix_list_ids":  null,
+						"protocol":         "tcp",
+						"security_groups":  null,
+						"self":             null,
+						"to_port":          8080,
+					},
+				],
+			},
+			"name": {
+				"constant_value": "VPC_Link_SG",
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+	"module.networking.aws_service_discovery_private_dns_namespace.main": {
+		"address": "module.networking.aws_service_discovery_private_dns_namespace.main",
+		"config": {
+			"description": {
+				"constant_value": "Private DNS Namespace",
+			},
+			"name": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_service_discovery_private_dns_namespace",
+	},
+	"module.networking.aws_subnet.private_subnet": {
+		"address": "module.networking.aws_subnet.private_subnet",
+		"config": {
+			"availability_zone": {
+				"constant_value": "ap-southeast-2b",
+			},
+			"cidr_block": {
+				"constant_value": "192.168.1.0/24",
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "private_subnet",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_subnet",
+	},
+	"module.networking.aws_subnet.public_subnet": {
+		"address": "module.networking.aws_subnet.public_subnet",
+		"config": {
+			"availability_zone": {
+				"constant_value": "ap-southeast-2a",
+			},
+			"cidr_block": {
+				"constant_value": "192.168.0.0/24",
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main_vpc.id",
+					"aws_vpc.main_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "public_subnet",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_subnet",
+	},
+	"module.networking.aws_vpc.main_vpc": {
+		"address": "module.networking.aws_vpc.main_vpc",
+		"config": {
+			"cidr_block": {
+				"references": [
+					"var.vpc_cidr_block",
+				],
+			},
+			"enable_dns_hostnames": {
+				"constant_value": true,
+			},
+			"enable_dns_support": {
+				"constant_value": true,
+			},
+			"instance_tenancy": {
+				"constant_value": "default",
+			},
+			"tags": {
+				"references": [
+					"var.project_name",
+					"var.environment",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.networking",
+		"name":                "main_vpc",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_vpc",
+	},
+	"module.networking.data.aws_subnets.main": {
+		"address": "module.networking.data.aws_subnets.main",
+		"config": {
+			"filter": [
+				{
+					"name": {
+						"constant_value": "vpc-id",
+					},
+					"values": {
+						"references": [
+							"aws_vpc.main_vpc.id",
+							"aws_vpc.main_vpc",
+						],
+					},
+				},
+			],
+		},
+		"count": {},
+		"depends_on": [
+			"aws_subnet.public_subnet",
+		],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.networking",
+		"name":                "main",
+		"provider_config_key": "module.networking:aws",
+		"provisioners":        [],
+		"type":                "aws_subnets",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"module.fargate_cluster:app_port": {
+		"default":        null,
+		"description":    "The container port number",
+		"module_address": "module.fargate_cluster",
+		"name":           "app_port",
+	},
+	"module.fargate_cluster:aws_region": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.fargate_cluster",
+		"name":           "aws_region",
+	},
+	"module.fargate_cluster:containter_name": {
+		"default":        null,
+		"description":    "backend ontainer name",
+		"module_address": "module.fargate_cluster",
+		"name":           "containter_name",
+	},
+	"module.fargate_cluster:environment": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.fargate_cluster",
+		"name":           "environment",
+	},
+	"module.fargate_cluster:fargate_namespace_id": {
+		"default":        null,
+		"description":    "cloudmap service created by network layer",
+		"module_address": "module.fargate_cluster",
+		"name":           "fargate_namespace_id",
+	},
+	"module.fargate_cluster:image_uri": {
+		"default":        null,
+		"description":    "The container image deployed in ecr",
+		"module_address": "module.fargate_cluster",
+		"name":           "image_uri",
+	},
+	"module.fargate_cluster:network_stack_vpclink_id": {
+		"default":        null,
+		"description":    "VPC link created by the network layer",
+		"module_address": "module.fargate_cluster",
+		"name":           "network_stack_vpclink_id",
+	},
+	"module.fargate_cluster:private_subnet_ids": {
+		"default":        null,
+		"description":    "VPC private subnet ids",
+		"module_address": "module.fargate_cluster",
+		"name":           "private_subnet_ids",
+	},
+	"module.fargate_cluster:project_name": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.fargate_cluster",
+		"name":           "project_name",
+	},
+	"module.fargate_cluster:tags": {
+		"default": {
+			"name": "value",
+		},
+		"description":    "Tags to attach to the resources",
+		"module_address": "module.fargate_cluster",
+		"name":           "tags",
+	},
+	"module.fargate_cluster:vpc_cidr_block": {
+		"default":        null,
+		"description":    "CIDR Block",
+		"module_address": "module.fargate_cluster",
+		"name":           "vpc_cidr_block",
+	},
+	"module.fargate_cluster:vpc_id": {
+		"default":        null,
+		"description":    "VPC id created by the network layer",
+		"module_address": "module.fargate_cluster",
+		"name":           "vpc_id",
+	},
+	"module.fargate_cluster:vpc_ling_sg": {
+		"default":        null,
+		"description":    "VPC link security group created by the network layer",
+		"module_address": "module.fargate_cluster",
+		"name":           "vpc_ling_sg",
+	},
+	"module.networking:aws_region": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.networking",
+		"name":           "aws_region",
+	},
+	"module.networking:environment": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.networking",
+		"name":           "environment",
+	},
+	"module.networking:project_name": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.networking",
+		"name":           "project_name",
+	},
+	"module.networking:vpc_cidr_block": {
+		"default":        null,
+		"description":    "CIDR block range for vpc",
+		"module_address": "module.networking",
+		"name":           "vpc_cidr_block",
+	},
+}
+
+outputs = {
+	"module.fargate_cluster:aws_ecs_cluster_id": {
+		"depends_on":     [],
+		"description":    "id of ECS cluster",
+		"module_address": "module.fargate_cluster",
+		"name":           "aws_ecs_cluster_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_ecs_cluster.main.id",
+				"aws_ecs_cluster.main",
+			],
+		},
+	},
+	"module.fargate_cluster:ecs_cluster_name": {
+		"depends_on":     [],
+		"description":    "Name of ECS cluster",
+		"module_address": "module.fargate_cluster",
+		"name":           "ecs_cluster_name",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_ecs_cluster.main.name",
+				"aws_ecs_cluster.main",
+			],
+		},
+	},
+	"module.networking:fargate_namespace_id": {
+		"depends_on":     [],
+		"description":    "Namespace id",
+		"module_address": "module.networking",
+		"name":           "fargate_namespace_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_service_discovery_private_dns_namespace.main.id",
+				"aws_service_discovery_private_dns_namespace.main",
+			],
+		},
+	},
+	"module.networking:private_subnet_id": {
+		"depends_on":     [],
+		"description":    "Private Subnet id for Fargate Cluster",
+		"module_address": "module.networking",
+		"name":           "private_subnet_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_subnet.private_subnet.id",
+				"aws_subnet.private_subnet",
+			],
+		},
+	},
+	"module.networking:vpc_id": {
+		"depends_on":     [],
+		"description":    "VPC id",
+		"module_address": "module.networking",
+		"name":           "vpc_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_vpc.main_vpc.id",
+				"aws_vpc.main_vpc",
+			],
+		},
+	},
+	"module.networking:vpc_link_id": {
+		"depends_on":     [],
+		"description":    "VPC Link Id",
+		"module_address": "module.networking",
+		"name":           "vpc_link_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_apigatewayv2_vpc_link.main.id",
+				"aws_apigatewayv2_vpc_link.main",
+			],
+		},
+	},
+	"module.networking:vpc_link_sg": {
+		"depends_on":     [],
+		"description":    "Security Group for VPC Link",
+		"module_address": "module.networking",
+		"name":           "vpc_link_sg",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_security_group.main.id",
+				"aws_security_group.main",
+			],
+		},
+	},
+}
+
+module_calls = {
+	"fargate_cluster": {
+		"config": {
+			"app_port": {
+				"references": [
+					"local.config[\"app_port\"]",
+					"local.config",
+				],
+			},
+			"aws_region": {
+				"references": [
+					"local.config[\"aws_region\"]",
+					"local.config",
+				],
+			},
+			"containter_name": {
+				"references": [
+					"local.config[\"containter_name\"]",
+					"local.config",
+				],
+			},
+			"environment": {
+				"references": [
+					"local.config[\"environment\"]",
+					"local.config",
+				],
+			},
+			"fargate_namespace_id": {
+				"references": [
+					"module.networking.fargate_namespace_id",
+					"module.networking",
+				],
+			},
+			"image_uri": {
+				"references": [
+					"local.config[\"image_uri\"]",
+					"local.config",
+				],
+			},
+			"network_stack_vpclink_id": {
+				"references": [
+					"module.networking.vpc_link_id",
+					"module.networking",
+				],
+			},
+			"private_subnet_ids": {
+				"references": [
+					"module.networking.private_subnet_id",
+					"module.networking",
+				],
+			},
+			"project_name": {
+				"references": [
+					"local.config[\"project_name\"]",
+					"local.config",
+				],
+			},
+			"vpc_cidr_block": {
+				"references": [
+					"local.config[\"vpc_cidr_block\"]",
+					"local.config",
+				],
+			},
+			"vpc_id": {
+				"references": [
+					"module.networking.vpc_id",
+					"module.networking",
+				],
+			},
+			"vpc_ling_sg": {
+				"references": [
+					"module.networking.vpc_link_sg",
+					"module.networking",
+				],
+			},
+		},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "",
+		"name":               "fargate_cluster",
+		"source":             "../tf_modules/fargate_cluster",
+		"version_constraint": "",
+	},
+	"networking": {
+		"config": {
+			"aws_region": {
+				"references": [
+					"local.config[\"aws_region\"]",
+					"local.config",
+				],
+			},
+			"environment": {
+				"references": [
+					"local.config[\"environment\"]",
+					"local.config",
+				],
+			},
+			"project_name": {
+				"references": [
+					"local.config[\"project_name\"]",
+					"local.config",
+				],
+			},
+			"vpc_cidr_block": {
+				"references": [
+					"local.config[\"vpc_cidr_block\"]",
+					"local.config",
+				],
+			},
+		},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "",
+		"name":               "networking",
+		"source":             "../tf_modules/networking",
+		"version_constraint": "",
+	},
+}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}

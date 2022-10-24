@@ -1,0 +1,7 @@
+aws_region: "{{ terraform['%s' | format(env)].aws_region }}"
+environment: "{{ terraform['%s' | format(env)].environment }}"
+project_name: "{{ terraform['%s' | format(env)].project_name }}"
+vpc_cidr_block: "{{ terraform['%s' | format(env)].vpc_cidr_block }}"
+containter_name: "{{ terraform['%s' | format(env)].containter_name }}"
+app_port: "{{ terraform['%s' | format(env)].app_port }}"
+image_uri: "{{ aws_account }}.dkr.ecr.{{ terraform['%s' | format(env)].aws_region }}.amazonaws.com/{{ terraform['%s' | format(env)].ecr_repo_name }}:latest"

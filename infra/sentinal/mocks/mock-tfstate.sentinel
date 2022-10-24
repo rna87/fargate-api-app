@@ -1,0 +1,1166 @@
+import "strings"
+import "types"
+
+outputs = {}
+
+_modules = {
+	"root": {
+		"data": {
+			"local_file": {
+				"config": {
+					0: {
+						"attr": {
+							"content":        "aws_region: \"ap-southeast-2\"\nenvironment: \"production\"\nproject_name: \"7plus\"\nvpc_cidr_block: \"192.168.0.0/16\"\ncontainter_name: \"api\"\napp_port: \"8080\"\nimage_uri: \"478525466663.dkr.ecr.ap-southeast-2.amazonaws.com/app:latest\"",
+							"content_base64": "YXdzX3JlZ2lvbjogImFwLXNvdXRoZWFzdC0yIgplbnZpcm9ubWVudDogInByb2R1Y3Rpb24iCnByb2plY3RfbmFtZTogIjdwbHVzIgp2cGNfY2lkcl9ibG9jazogIjE5Mi4xNjguMC4wLzE2Igpjb250YWludGVyX25hbWU6ICJhcGkiCmFwcF9wb3J0OiAiODA4MCIKaW1hZ2VfdXJpOiAiNDc4NTI1NDY2NjYzLmRrci5lY3IuYXAtc291dGhlYXN0LTIuYW1hem9uYXdzLmNvbS9hcHA6bGF0ZXN0Ig==",
+							"filename":       "./config.yaml",
+							"id":             "21307a2214fdc4daebfba38cb6094f27acead468",
+						},
+						"depends_on": [],
+						"id":         "21307a2214fdc4daebfba38cb6094f27acead468",
+						"tainted":    false,
+					},
+				},
+			},
+		},
+		"path":      [],
+		"resources": {},
+	},
+
+	"module.fargate_cluster": {
+		"data": {
+			"aws_ecs_task_definition": {
+				"app": {
+					0: {
+						"attr": {
+							"arn":             "arn:aws:ecs:ap-southeast-2:478525466663:task-definition/7plus-production:1",
+							"family":          "7plus-production",
+							"id":              "arn:aws:ecs:ap-southeast-2:478525466663:task-definition/7plus-production:1",
+							"network_mode":    "awsvpc",
+							"revision":        1,
+							"status":          "ACTIVE",
+							"task_definition": "7plus-production",
+							"task_role_arn":   "arn:aws:iam::478525466663:role/terraform-20221024025623622900000002",
+						},
+						"depends_on": [],
+						"id":         "arn:aws:ecs:ap-southeast-2:478525466663:task-definition/7plus-production:1",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_iam_policy_document": {
+				"app_policy": {
+					0: {
+						"attr": {
+							"id":                        "1420726984",
+							"json":                      "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:PutLogEvents\",\n        \"logs:CreateLogStream\",\n        \"ecr:GetDownloadUrlForLayer\",\n        \"ecr:GetAuthorizationToken\",\n        \"ecr:BatchGetImage\",\n        \"ecr:BatchCheckLayerAvailability\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}",
+							"override_json":             null,
+							"override_policy_documents": null,
+							"policy_id":                 null,
+							"source_json":               null,
+							"source_policy_documents":   null,
+							"statement": [
+								{
+									"actions": [
+										"ecr:BatchCheckLayerAvailability",
+										"ecr:BatchGetImage",
+										"ecr:GetAuthorizationToken",
+										"ecr:GetDownloadUrlForLayer",
+										"logs:CreateLogStream",
+										"logs:PutLogEvents",
+									],
+									"condition":      [],
+									"effect":         "Allow",
+									"not_actions":    [],
+									"not_principals": [],
+									"not_resources":  [],
+									"principals":     [],
+									"resources": [
+										"*",
+									],
+									"sid": "",
+								},
+							],
+							"version": "2012-10-17",
+						},
+						"depends_on": [],
+						"id":         "1420726984",
+						"tainted":    false,
+					},
+				},
+			},
+		},
+		"path": [
+			"fargate_cluster",
+		],
+		"resources": {
+			"aws_apigatewayv2_api": {
+				"main": {
+					0: {
+						"attr": {
+							"api_endpoint":                 "https://8wxzveerf5.execute-api.ap-southeast-2.amazonaws.com",
+							"api_key_selection_expression": "$request.header.x-api-key",
+							"arn":  "arn:aws:apigateway:ap-southeast-2::/apis/8wxzveerf5",
+							"body": null,
+							"cors_configuration": [
+								{
+									"allow_credentials": false,
+									"allow_headers": [
+										"*",
+									],
+									"allow_methods": [
+										"*",
+									],
+									"allow_origins": [
+										"*",
+									],
+									"expose_headers": [],
+									"max_age":        0,
+								},
+							],
+							"credentials_arn":              null,
+							"description":                  "",
+							"disable_execute_api_endpoint": false,
+							"execution_arn":                "arn:aws:execute-api:ap-southeast-2:478525466663:8wxzveerf5",
+							"fail_on_warnings":             null,
+							"id":                           "8wxzveerf5",
+							"name":                         "7plus-production",
+							"protocol_type":                "HTTP",
+							"route_key":                    null,
+							"route_selection_expression":   "$request.method $request.path",
+							"tags":     {},
+							"tags_all": {},
+							"target":   null,
+							"version":  "",
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "8wxzveerf5",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_apigatewayv2_integration": {
+				"main": {
+					0: {
+						"attr": {
+							"api_id":                                    "8wxzveerf5",
+							"connection_id":                             "q3yiqo",
+							"connection_type":                           "VPC_LINK",
+							"content_handling_strategy":                 "",
+							"credentials_arn":                           "",
+							"description":                               "",
+							"id":                                        "rmrk07m",
+							"integration_method":                        "ANY",
+							"integration_response_selection_expression": "",
+							"integration_subtype":                       "",
+							"integration_type":                          "HTTP_PROXY",
+							"integration_uri":                           "arn:aws:servicediscovery:ap-southeast-2:478525466663:service/srv-js2vtsmele3ccoro",
+							"passthrough_behavior":                      "",
+							"payload_format_version":                    "1.0",
+							"request_parameters":                        {},
+							"request_templates":                         {},
+							"response_parameters":                       [],
+							"template_selection_expression":             "",
+							"timeout_milliseconds":                      30000,
+							"tls_config":                                [],
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_apigatewayv2_api.main",
+							"module.fargate_cluster.aws_service_discovery_service.main",
+							"module.networking.aws_apigatewayv2_vpc_link.main",
+							"module.networking.aws_security_group.main",
+							"module.networking.aws_service_discovery_private_dns_namespace.main",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+							"module.networking.data.aws_subnets.main",
+						],
+						"id":      "rmrk07m",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_apigatewayv2_route": {
+				"default_route": {
+					0: {
+						"attr": {
+							"api_id":               "8wxzveerf5",
+							"api_key_required":     false,
+							"authorization_scopes": [],
+							"authorization_type":   "NONE",
+							"authorizer_id":        "",
+							"id":                   "r0heo5e",
+							"model_selection_expression":          "",
+							"operation_name":                      "",
+							"request_models":                      {},
+							"request_parameter":                   [],
+							"route_key":                           "ANY /{proxy+}",
+							"route_response_selection_expression": "",
+							"target": "integrations/rmrk07m",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_apigatewayv2_api.main",
+							"module.fargate_cluster.aws_apigatewayv2_integration.main",
+							"module.fargate_cluster.aws_service_discovery_service.main",
+							"module.networking.aws_apigatewayv2_vpc_link.main",
+							"module.networking.aws_security_group.main",
+							"module.networking.aws_service_discovery_private_dns_namespace.main",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+							"module.networking.data.aws_subnets.main",
+						],
+						"id":      "r0heo5e",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_apigatewayv2_stage": {
+				"Default": {
+					0: {
+						"attr": {
+							"access_log_settings":   [],
+							"api_id":                "8wxzveerf5",
+							"arn":                   "arn:aws:apigateway:ap-southeast-2::/apis/8wxzveerf5/stages/$default",
+							"auto_deploy":           true,
+							"client_certificate_id": "",
+							"default_route_settings": [
+								{
+									"data_trace_enabled":       false,
+									"detailed_metrics_enabled": false,
+									"logging_level":            "",
+									"throttling_burst_limit":   0,
+									"throttling_rate_limit":    0,
+								},
+							],
+							"deployment_id":   "slwfd1",
+							"description":     "",
+							"execution_arn":   "arn:aws:execute-api:ap-southeast-2:478525466663:8wxzveerf5/$default",
+							"id":              "$default",
+							"invoke_url":      "https://8wxzveerf5.execute-api.ap-southeast-2.amazonaws.com/",
+							"name":            "$default",
+							"route_settings":  [],
+							"stage_variables": {},
+							"tags":            {},
+							"tags_all":        {},
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_apigatewayv2_api.main",
+						],
+						"id":      "$default",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_cloudwatch_log_group": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":               "arn:aws:logs:ap-southeast-2:478525466663:log-group:/fargate/7plus-production",
+							"id":                "/fargate/7plus-production",
+							"kms_key_id":        "",
+							"name":              "/fargate/7plus-production",
+							"name_prefix":       null,
+							"retention_in_days": 30,
+							"tags": {
+								"name": "value",
+							},
+							"tags_all": {
+								"name": "value",
+							},
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "/fargate/7plus-production",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_cloudwatch_log_stream": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":            "arn:aws:logs:ap-southeast-2:478525466663:log-group:/fargate/7plus-production:log-stream:7plus-production",
+							"id":             "7plus-production",
+							"log_group_name": "/fargate/7plus-production",
+							"name":           "7plus-production",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_cloudwatch_log_group.main",
+						],
+						"id":      "7plus-production",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_ecs_cluster": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":                                "arn:aws:ecs:ap-southeast-2:478525466663:cluster/7plus-production-Cluster",
+							"capacity_providers":                 [],
+							"configuration":                      [],
+							"default_capacity_provider_strategy": [],
+							"id":   "arn:aws:ecs:ap-southeast-2:478525466663:cluster/7plus-production-Cluster",
+							"name": "7plus-production-Cluster",
+							"setting": [
+								{
+									"name":  "containerInsights",
+									"value": "disabled",
+								},
+							],
+							"tags": {
+								"name": "value",
+							},
+							"tags_all": {
+								"name": "value",
+							},
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "arn:aws:ecs:ap-southeast-2:478525466663:cluster/7plus-production-Cluster",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_ecs_service": {
+				"main": {
+					0: {
+						"attr": {
+							"capacity_provider_strategy": [],
+							"cluster":                    "7plus-production-Cluster",
+							"deployment_circuit_breaker": [
+								{
+									"enable":   false,
+									"rollback": false,
+								},
+							],
+							"deployment_controller": [
+								{
+									"type": "ECS",
+								},
+							],
+							"deployment_maximum_percent":         200,
+							"deployment_minimum_healthy_percent": 100,
+							"desired_count":                      2,
+							"enable_ecs_managed_tags":            false,
+							"enable_execute_command":             false,
+							"force_new_deployment":               null,
+							"health_check_grace_period_seconds":  0,
+							"iam_role":                           "aws-service-role",
+							"id":                                 "arn:aws:ecs:ap-southeast-2:478525466663:service/7plus-production-Cluster/7plus-production",
+							"launch_type":                        "FARGATE",
+							"load_balancer":                      [],
+							"name":                               "7plus-production",
+							"network_configuration": [
+								{
+									"assign_public_ip": false,
+									"security_groups": [
+										"sg-0051fafe82d73e0c7",
+									],
+									"subnets": [
+										"subnet-07652b3aca9092880",
+									],
+								},
+							],
+							"ordered_placement_strategy": [],
+							"placement_constraints":      [],
+							"platform_version":           "LATEST",
+							"propagate_tags":             "NONE",
+							"scheduling_strategy":        "REPLICA",
+							"service_registries": [
+								{
+									"container_name": "",
+									"container_port": 0,
+									"port":           8080,
+									"registry_arn":   "arn:aws:servicediscovery:ap-southeast-2:478525466663:service/srv-js2vtsmele3ccoro",
+								},
+							],
+							"tags":                  {},
+							"tags_all":              {},
+							"task_definition":       "7plus-production:1",
+							"timeouts":              null,
+							"wait_for_steady_state": false,
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_cloudwatch_log_group.main",
+							"module.fargate_cluster.aws_ecs_cluster.main",
+							"module.fargate_cluster.aws_ecs_task_definition.app",
+							"module.fargate_cluster.aws_iam_role.ecs_task_execution_role",
+							"module.fargate_cluster.aws_iam_role.task_definition_task_role",
+							"module.fargate_cluster.aws_security_group.ecs_service",
+							"module.fargate_cluster.aws_service_discovery_service.main",
+							"module.fargate_cluster.data.aws_ecs_task_definition.app",
+							"module.networking.aws_security_group.main",
+							"module.networking.aws_service_discovery_private_dns_namespace.main",
+							"module.networking.aws_subnet.private_subnet",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "arn:aws:ecs:ap-southeast-2:478525466663:service/7plus-production-Cluster/7plus-production",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_ecs_task_definition": {
+				"app": {
+					0: {
+						"attr": {
+							"arn": "arn:aws:ecs:ap-southeast-2:478525466663:task-definition/7plus-production:1",
+							"container_definitions": "[{\"cpu\":0,\"environment\":[{\"name\":\"ENV\",\"value\":\"production\"}],\"essential\":true,\"image\":\"478525466663.dkr.ecr.ap-southeast-2.amazonaws.com/app:latest\",\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/fargate/7plus-production\",\"awslogs-region\":\"ap-southeast-2\",\"awslogs-stream-prefix\":\"ecs\"}},\"mountPoints\":[],\"name\":\"api\",\"portMappings\":[{\"containerPort\":8080,\"hostPort\":8080,\"protocol\":\"tcp\"}],\"volumesFrom\":[]}]",
+							"cpu":                "512",
+							"ephemeral_storage":  [],
+							"execution_role_arn": "arn:aws:iam::478525466663:role/terraform-20221024025623620400000001",
+							"family":             "7plus-production",
+							"id":                 "7plus-production",
+							"inference_accelerator": [],
+							"ipc_mode":              "",
+							"memory":                "1024",
+							"network_mode":          "awsvpc",
+							"pid_mode":              "",
+							"placement_constraints": [],
+							"proxy_configuration":   [],
+							"requires_compatibilities": [
+								"FARGATE",
+							],
+							"revision":         1,
+							"runtime_platform": [],
+							"skip_destroy":     false,
+							"tags": {
+								"name": "value",
+							},
+							"tags_all": {
+								"name": "value",
+							},
+							"task_role_arn": "arn:aws:iam::478525466663:role/terraform-20221024025623622900000002",
+							"volume":        [],
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_cloudwatch_log_group.main",
+							"module.fargate_cluster.aws_iam_role.ecs_task_execution_role",
+							"module.fargate_cluster.aws_iam_role.task_definition_task_role",
+						],
+						"id":      "7plus-production",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_iam_role": {
+				"ecs_task_execution_role": {
+					0: {
+						"attr": {
+							"arn":                   "arn:aws:iam::478525466663:role/terraform-20221024025623620400000001",
+							"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"},\"Sid\":\"\"}],\"Version\":\"2012-10-17\"}",
+							"create_date":           "2022-10-24T02:56:23Z",
+							"description":           "",
+							"force_detach_policies": false,
+							"id": "terraform-20221024025623620400000001",
+							"inline_policy": [
+								{
+									"name":   "7plus-production-ecs-policy",
+									"policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:PutLogEvents\",\n        \"logs:CreateLogStream\",\n        \"ecr:GetDownloadUrlForLayer\",\n        \"ecr:GetAuthorizationToken\",\n        \"ecr:BatchGetImage\",\n        \"ecr:BatchCheckLayerAvailability\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}",
+								},
+							],
+							"managed_policy_arns":  [],
+							"max_session_duration": 3600,
+							"name":                 "terraform-20221024025623620400000001",
+							"name_prefix":          "terraform-",
+							"path":                 "/",
+							"permissions_boundary": null,
+							"tags":                 {},
+							"tags_all":             {},
+							"unique_id":            "AROAW62SXFAT7BDPPGNRU",
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "terraform-20221024025623620400000001",
+						"tainted": false,
+					},
+				},
+				"task_definition_task_role": {
+					0: {
+						"attr": {
+							"arn":                   "arn:aws:iam::478525466663:role/terraform-20221024025623622900000002",
+							"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"},\"Sid\":\"\"}],\"Version\":\"2012-10-17\"}",
+							"create_date":           "2022-10-24T02:56:23Z",
+							"description":           "",
+							"force_detach_policies": false,
+							"id":                   "terraform-20221024025623622900000002",
+							"inline_policy":        [],
+							"managed_policy_arns":  [],
+							"max_session_duration": 3600,
+							"name":                 "terraform-20221024025623622900000002",
+							"name_prefix":          "terraform-",
+							"path":                 "/",
+							"permissions_boundary": null,
+							"tags":                 {},
+							"tags_all":             {},
+							"unique_id":            "AROAW62SXFAT4GT4H25KV",
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "terraform-20221024025623622900000002",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_iam_role_policy": {
+				"app_policy": {
+					0: {
+						"attr": {
+							"id":          "terraform-20221024025623620400000001:7plus-production-ecs-policy",
+							"name":        "7plus-production-ecs-policy",
+							"name_prefix": null,
+							"policy":      "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:PutLogEvents\",\n        \"logs:CreateLogStream\",\n        \"ecr:GetDownloadUrlForLayer\",\n        \"ecr:GetAuthorizationToken\",\n        \"ecr:BatchGetImage\",\n        \"ecr:BatchCheckLayerAvailability\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}",
+							"role":        "terraform-20221024025623620400000001",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.fargate_cluster.aws_iam_role.ecs_task_execution_role",
+							"module.fargate_cluster.data.aws_iam_policy_document.app_policy",
+						],
+						"id":      "terraform-20221024025623620400000001:7plus-production-ecs-policy",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_security_group": {
+				"ecs_service": {
+					0: {
+						"attr": {
+							"arn":         "arn:aws:ec2:ap-southeast-2:478525466663:security-group/sg-0051fafe82d73e0c7",
+							"description": "security group for fargate tasks",
+							"egress": [
+								{
+									"cidr_blocks": [
+										"0.0.0.0/0",
+									],
+									"description":      "Allow all outbound traffic by default",
+									"from_port":        0,
+									"ipv6_cidr_blocks": [],
+									"prefix_list_ids":  [],
+									"protocol":         "-1",
+									"security_groups":  [],
+									"self":             false,
+									"to_port":          0,
+								},
+							],
+							"id": "sg-0051fafe82d73e0c7",
+							"ingress": [
+								{
+									"cidr_blocks": [
+										"192.168.0.0/16",
+									],
+									"description":      "",
+									"from_port":        8080,
+									"ipv6_cidr_blocks": [],
+									"prefix_list_ids":  [],
+									"protocol":         "tcp",
+									"security_groups":  [],
+									"self":             false,
+									"to_port":          8080,
+								},
+								{
+									"cidr_blocks":      [],
+									"description":      "tcp",
+									"from_port":        8080,
+									"ipv6_cidr_blocks": [],
+									"prefix_list_ids":  [],
+									"protocol":         "tcp",
+									"security_groups": [
+										"sg-0c7e430c5547c0456",
+									],
+									"self":    false,
+									"to_port": 8080,
+								},
+							],
+							"name":                   "fargate-task-security-group-production",
+							"name_prefix":            "",
+							"owner_id":               "478525466663",
+							"revoke_rules_on_delete": false,
+							"tags":     {},
+							"tags_all": {},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_security_group.main",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "sg-0051fafe82d73e0c7",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_service_discovery_service": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":         "arn:aws:servicediscovery:ap-southeast-2:478525466663:service/srv-js2vtsmele3ccoro",
+							"description": "",
+							"dns_config": [
+								{
+									"dns_records": [
+										{
+											"ttl":  60,
+											"type": "SRV",
+										},
+									],
+									"namespace_id":   "ns-slsn3v7alyosvbdh",
+									"routing_policy": "MULTIVALUE",
+								},
+							],
+							"force_destroy":              false,
+							"health_check_config":        [],
+							"health_check_custom_config": [],
+							"id":           "srv-js2vtsmele3ccoro",
+							"name":         "7plus-production",
+							"namespace_id": "ns-slsn3v7alyosvbdh",
+							"tags":         {},
+							"tags_all":     {},
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_service_discovery_private_dns_namespace.main",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "srv-js2vtsmele3ccoro",
+						"tainted": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.networking": {
+		"data": {
+			"aws_subnets": {
+				"main": {
+					0: {
+						"attr": {
+							"filter": [
+								{
+									"name": "vpc-id",
+									"values": [
+										"vpc-01ce7b3c4d524c57b",
+									],
+								},
+							],
+							"id": "ap-southeast-2",
+							"ids": [
+								"subnet-07d16bddeb9e8a685",
+								"subnet-07652b3aca9092880",
+							],
+							"tags":     null,
+							"timeouts": null,
+						},
+						"depends_on": [],
+						"id":         "ap-southeast-2",
+						"tainted":    false,
+					},
+				},
+			},
+		},
+		"path": [
+			"networking",
+		],
+		"resources": {
+			"aws_apigatewayv2_vpc_link": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":  "arn:aws:apigateway:ap-southeast-2::/vpclinks/q3yiqo",
+							"id":   "q3yiqo",
+							"name": "7plus-production",
+							"security_group_ids": [
+								"sg-0c7e430c5547c0456",
+							],
+							"subnet_ids": [
+								"subnet-07652b3aca9092880",
+								"subnet-07d16bddeb9e8a685",
+							],
+							"tags":     {},
+							"tags_all": {},
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_security_group.main",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+							"module.networking.data.aws_subnets.main",
+						],
+						"id":      "q3yiqo",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_eip": {
+				"nat": {
+					0: {
+						"attr": {
+							"address":                   null,
+							"allocation_id":             "eipalloc-01f6d6a6937574588",
+							"associate_with_private_ip": null,
+							"association_id":            "eipassoc-0ade37f63cbc26860",
+							"carrier_ip":                "",
+							"customer_owned_ip":         "",
+							"customer_owned_ipv4_pool":  "",
+							"domain":                    "vpc",
+							"id":                        "eipalloc-01f6d6a6937574588",
+							"instance":                  "",
+							"network_border_group":      "ap-southeast-2",
+							"network_interface":         "eni-0c50ad10955a04e06",
+							"private_dns":               "ip-192-168-0-172.ap-southeast-2.compute.internal",
+							"private_ip":                "192.168.0.172",
+							"public_dns":                "ec2-3-25-28-148.ap-southeast-2.compute.amazonaws.com",
+							"public_ip":                 "3.25.28.148",
+							"public_ipv4_pool":          "amazon",
+							"tags":                      {},
+							"tags_all":                  {},
+							"timeouts":                  null,
+							"vpc":                       true,
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "eipalloc-01f6d6a6937574588",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_internet_gateway": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":      "arn:aws:ec2:ap-southeast-2:478525466663:internet-gateway/igw-077748fb5d936b013",
+							"id":       "igw-077748fb5d936b013",
+							"owner_id": "478525466663",
+							"tags": {
+								"Name": "7plus-production-igw",
+							},
+							"tags_all": {
+								"Name": "7plus-production-igw",
+							},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "igw-077748fb5d936b013",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_nat_gateway": {
+				"nat-gw": {
+					0: {
+						"attr": {
+							"allocation_id":     "eipalloc-01f6d6a6937574588",
+							"connectivity_type": "public",
+							"id":                "nat-0424a449c68e2a947",
+							"network_interface_id": "eni-0c50ad10955a04e06",
+							"private_ip":           "192.168.0.172",
+							"public_ip":            "3.25.28.148",
+							"subnet_id":            "subnet-07d16bddeb9e8a685",
+							"tags": {
+								"Name": "7plus-production-nat-gw",
+							},
+							"tags_all": {
+								"Name": "7plus-production-nat-gw",
+							},
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_eip.nat",
+							"module.networking.aws_internet_gateway.main",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "nat-0424a449c68e2a947",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_route_table": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":              "arn:aws:ec2:ap-southeast-2:478525466663:route-table/rtb-0cf8ebb7e6d96ddcf",
+							"id":               "rtb-0cf8ebb7e6d96ddcf",
+							"owner_id":         "478525466663",
+							"propagating_vgws": [],
+							"route": [
+								{
+									"carrier_gateway_id":         "",
+									"cidr_block":                 "0.0.0.0/0",
+									"core_network_arn":           "",
+									"destination_prefix_list_id": "",
+									"egress_only_gateway_id":     "",
+									"gateway_id":                 "igw-077748fb5d936b013",
+									"instance_id":                "",
+									"ipv6_cidr_block":            "",
+									"local_gateway_id":           "",
+									"nat_gateway_id":             "",
+									"network_interface_id":       "",
+									"transit_gateway_id":         "",
+									"vpc_endpoint_id":            "",
+									"vpc_peering_connection_id":  "",
+								},
+							],
+							"tags": {
+								"Name": "7plus-production-route-table",
+							},
+							"tags_all": {
+								"Name": "7plus-production-route-table",
+							},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_internet_gateway.main",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "rtb-0cf8ebb7e6d96ddcf",
+						"tainted": false,
+					},
+				},
+				"private_route": {
+					0: {
+						"attr": {
+							"arn":              "arn:aws:ec2:ap-southeast-2:478525466663:route-table/rtb-05f373c842705c582",
+							"id":               "rtb-05f373c842705c582",
+							"owner_id":         "478525466663",
+							"propagating_vgws": [],
+							"route": [
+								{
+									"carrier_gateway_id":         "",
+									"cidr_block":                 "0.0.0.0/0",
+									"core_network_arn":           "",
+									"destination_prefix_list_id": "",
+									"egress_only_gateway_id":     "",
+									"gateway_id":                 "",
+									"instance_id":                "",
+									"ipv6_cidr_block":            "",
+									"local_gateway_id":           "",
+									"nat_gateway_id":             "nat-0424a449c68e2a947",
+									"network_interface_id":       "",
+									"transit_gateway_id":         "",
+									"vpc_endpoint_id":            "",
+									"vpc_peering_connection_id":  "",
+								},
+							],
+							"tags": {
+								"Name": "7plus-production-private-route-for-db",
+							},
+							"tags_all": {
+								"Name": "7plus-production-private-route-for-db",
+							},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_eip.nat",
+							"module.networking.aws_internet_gateway.main",
+							"module.networking.aws_nat_gateway.nat-gw",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "rtb-05f373c842705c582",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_route_table_association": {
+				"main": {
+					0: {
+						"attr": {
+							"gateway_id":     "",
+							"id":             "rtbassoc-0fb521b26b157dd71",
+							"route_table_id": "rtb-0cf8ebb7e6d96ddcf",
+							"subnet_id":      "subnet-07d16bddeb9e8a685",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_internet_gateway.main",
+							"module.networking.aws_route_table.main",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "rtbassoc-0fb521b26b157dd71",
+						"tainted": false,
+					},
+				},
+				"nat": {
+					0: {
+						"attr": {
+							"gateway_id":     "",
+							"id":             "rtbassoc-0ed7e5c97662525df",
+							"route_table_id": "rtb-05f373c842705c582",
+							"subnet_id":      "subnet-07652b3aca9092880",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_eip.nat",
+							"module.networking.aws_internet_gateway.main",
+							"module.networking.aws_nat_gateway.nat-gw",
+							"module.networking.aws_route_table.private_route",
+							"module.networking.aws_subnet.private_subnet",
+							"module.networking.aws_subnet.public_subnet",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "rtbassoc-0ed7e5c97662525df",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_security_group": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":         "arn:aws:ec2:ap-southeast-2:478525466663:security-group/sg-0c7e430c5547c0456",
+							"description": "Allow hhtp",
+							"egress": [
+								{
+									"cidr_blocks": [
+										"0.0.0.0/0",
+									],
+									"description":      "",
+									"from_port":        0,
+									"ipv6_cidr_blocks": [],
+									"prefix_list_ids":  [],
+									"protocol":         "-1",
+									"security_groups":  [],
+									"self":             false,
+									"to_port":          0,
+								},
+							],
+							"id": "sg-0c7e430c5547c0456",
+							"ingress": [
+								{
+									"cidr_blocks": [
+										"0.0.0.0/0",
+									],
+									"description":      "HTTP",
+									"from_port":        8080,
+									"ipv6_cidr_blocks": [],
+									"prefix_list_ids":  [],
+									"protocol":         "tcp",
+									"security_groups":  [],
+									"self":             false,
+									"to_port":          8080,
+								},
+							],
+							"name":                   "VPC_Link_SG",
+							"name_prefix":            "",
+							"owner_id":               "478525466663",
+							"revoke_rules_on_delete": false,
+							"tags": {
+								"Name": "7plus-production-sg",
+							},
+							"tags_all": {
+								"Name": "7plus-production-sg",
+							},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "sg-0c7e430c5547c0456",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_service_discovery_private_dns_namespace": {
+				"main": {
+					0: {
+						"attr": {
+							"arn":         "arn:aws:servicediscovery:ap-southeast-2:478525466663:namespace/ns-slsn3v7alyosvbdh",
+							"description": "Private DNS Namespace",
+							"hosted_zone": "Z02737557LDXL9Z3ELZX",
+							"id":          "ns-slsn3v7alyosvbdh",
+							"name":        "7plus-production",
+							"tags":        {},
+							"tags_all":    {},
+							"vpc":         "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "ns-slsn3v7alyosvbdh",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_subnet": {
+				"private_subnet": {
+					0: {
+						"attr": {
+							"arn": "arn:aws:ec2:ap-southeast-2:478525466663:subnet/subnet-07652b3aca9092880",
+							"assign_ipv6_address_on_creation":                false,
+							"availability_zone":                              "ap-southeast-2b",
+							"availability_zone_id":                           "apse2-az1",
+							"cidr_block":                                     "192.168.1.0/24",
+							"customer_owned_ipv4_pool":                       "",
+							"enable_dns64":                                   false,
+							"enable_resource_name_dns_a_record_on_launch":    false,
+							"enable_resource_name_dns_aaaa_record_on_launch": false,
+							"id":                                  "subnet-07652b3aca9092880",
+							"ipv6_cidr_block":                     "",
+							"ipv6_cidr_block_association_id":      "",
+							"ipv6_native":                         false,
+							"map_customer_owned_ip_on_launch":     false,
+							"map_public_ip_on_launch":             false,
+							"outpost_arn":                         "",
+							"owner_id":                            "478525466663",
+							"private_dns_hostname_type_on_launch": "ip-name",
+							"tags": {
+								"Name": "7plus-production-private-subnet",
+							},
+							"tags_all": {
+								"Name": "7plus-production-private-subnet",
+							},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "subnet-07652b3aca9092880",
+						"tainted": false,
+					},
+				},
+				"public_subnet": {
+					0: {
+						"attr": {
+							"arn": "arn:aws:ec2:ap-southeast-2:478525466663:subnet/subnet-07d16bddeb9e8a685",
+							"assign_ipv6_address_on_creation":                false,
+							"availability_zone":                              "ap-southeast-2a",
+							"availability_zone_id":                           "apse2-az3",
+							"cidr_block":                                     "192.168.0.0/24",
+							"customer_owned_ipv4_pool":                       "",
+							"enable_dns64":                                   false,
+							"enable_resource_name_dns_a_record_on_launch":    false,
+							"enable_resource_name_dns_aaaa_record_on_launch": false,
+							"id":                                  "subnet-07d16bddeb9e8a685",
+							"ipv6_cidr_block":                     "",
+							"ipv6_cidr_block_association_id":      "",
+							"ipv6_native":                         false,
+							"map_customer_owned_ip_on_launch":     false,
+							"map_public_ip_on_launch":             false,
+							"outpost_arn":                         "",
+							"owner_id":                            "478525466663",
+							"private_dns_hostname_type_on_launch": "ip-name",
+							"tags": {
+								"Name": "7plus-production-public-subnet",
+							},
+							"tags_all": {
+								"Name": "7plus-production-public-subnet",
+							},
+							"timeouts": null,
+							"vpc_id":   "vpc-01ce7b3c4d524c57b",
+						},
+						"depends_on": [
+							"data.local_file.config",
+							"module.networking.aws_vpc.main_vpc",
+						],
+						"id":      "subnet-07d16bddeb9e8a685",
+						"tainted": false,
+					},
+				},
+			},
+			"aws_vpc": {
+				"main_vpc": {
+					0: {
+						"attr": {
+							"arn": "arn:aws:ec2:ap-southeast-2:478525466663:vpc/vpc-01ce7b3c4d524c57b",
+							"assign_generated_ipv6_cidr_block":     false,
+							"cidr_block":                           "192.168.0.0/16",
+							"default_network_acl_id":               "acl-016ddd415f1dca7ed",
+							"default_route_table_id":               "rtb-0c9657eab2a74ec15",
+							"default_security_group_id":            "sg-0531534b8f7cf7139",
+							"dhcp_options_id":                      "dopt-0e4502a64e4415ed2",
+							"enable_classiclink":                   false,
+							"enable_classiclink_dns_support":       false,
+							"enable_dns_hostnames":                 true,
+							"enable_dns_support":                   true,
+							"enable_network_address_usage_metrics": false,
+							"id":                                   "vpc-01ce7b3c4d524c57b",
+							"instance_tenancy":                     "default",
+							"ipv4_ipam_pool_id":                    null,
+							"ipv4_netmask_length":                  null,
+							"ipv6_association_id":                  "",
+							"ipv6_cidr_block":                      "",
+							"ipv6_cidr_block_network_border_group": "",
+							"ipv6_ipam_pool_id":                    "",
+							"ipv6_netmask_length":                  0,
+							"main_route_table_id":                  "rtb-0c9657eab2a74ec15",
+							"owner_id":                             "478525466663",
+							"tags": {
+								"Name": "7plus-production-vpc",
+							},
+							"tags_all": {
+								"Name": "7plus-production-vpc",
+							},
+						},
+						"depends_on": [
+							"data.local_file.config",
+						],
+						"id":      "vpc-01ce7b3c4d524c57b",
+						"tainted": false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"fargate_cluster",
+	],
+	[
+		"networking",
+	],
+]
+
+terraform_version = "1.2.6"
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources
