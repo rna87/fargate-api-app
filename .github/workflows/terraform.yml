@@ -13,20 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./infra
+        working-directory: ./infra/tf
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-
-      - name: Create tar gz file
-        run: tar --create --file=build.tar.gz --exclude *.terraform* tf tf_modules
-      
-      - name: Terraform Cloud
-        uses: addresscloud/terraform-cloud-action@v1.0.0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
         with:
-          tfToken: ${{ secrets.TF_API_TOKEN }}
-          tfOrg: 'RNA'
-          tfWorkspace: 'production'
-          filePath: 'build.tar.gz'
-          identifier: ${{ github.sha }}
+          # terraform_version: 0.13.0:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false
