@@ -19,6 +19,11 @@ variable "image_secret" {
   description = "Github packages image secret"
 }
 
+variable "last_sha" {
+  type = string
+  description = "Last commit SHA"
+}
+
 variable "vpc_id" {
   type = string
   description = "VPC id created by the network layer"
