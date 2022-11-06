@@ -66,7 +66,7 @@ jobs:
         run: cat config.yaml
 
       - name: Show GitHub context
-        run: echo ${{ github.sha }} >> config.yaml
+        run: echo "last_sha:" ${{ github.sha }} >> config.yaml
       
       - name: Show GitHub context
         run: cat config.yaml
