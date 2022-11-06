@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./infra/tf
+        working-directory: ./infra
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
 
       - name: Create tar gz file
-        run: tar --exclude *.terraform* -zcvf build.tar.gz build infrastructure
+        run: tar --exclude *.terraform* -zcvf build.tar.gz tf tf_module
       
       - name: Terraform Cloud
         uses: addresscloud/terraform-cloud-action@v1.0.0
