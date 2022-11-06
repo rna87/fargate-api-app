@@ -56,6 +56,14 @@ data "aws_iam_policy_document" "app_policy" {
     ]
     resources = ["*"]
   }
+
+  statement {
+    actions = [
+      "ssm:GetParameters",
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = [var.image_secret]
+  }
 }
 
 # Assigning ECS Policy to Task Execution Role
