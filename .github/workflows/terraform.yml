@@ -64,13 +64,8 @@ jobs:
       - name: Show GitHub context
         run: cat config.yaml
 
-      - name: Overwrite file
-        uses: "DamianReeves/write-file-action@master"
-        with:
-          path: config.yaml
-          write-mode: append
-          contents: |
-            "last_sha: ${{ github.sha }}"
+      - name: Show GitHub context
+        run: ${{ github.sha }} />> config.yaml
       
       - name: Show GitHub context
         run: cat config.yaml
