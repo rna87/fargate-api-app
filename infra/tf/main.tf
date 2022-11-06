@@ -47,6 +47,7 @@ module "fargate_cluster" {
   app_port = local.config["app_port"]
   image_uri = local.config["image_uri"]
   image_secret= local.config["image_secret"]
+  last_sha= local.config["last_sha"]
 
   vpc_id = module.networking.vpc_id
   private_subnet_ids = [ module.networking.private_subnet_id ]
