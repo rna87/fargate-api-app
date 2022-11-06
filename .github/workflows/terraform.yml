@@ -28,5 +28,5 @@ jobs:
           tfToken: ${{ secrets.TF_API_TOKEN }}
           tfOrg: 'RNA'
           tfWorkspace: 'production'
-          filePath: './build.tar.gz'
+          filePath: 'build.tar.gz'
           identifier: ${{ github.sha }}
