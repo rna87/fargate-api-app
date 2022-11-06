@@ -9,6 +9,9 @@
 *.sentinal
 *.sentinal.*
 
+# node_modules
+**/node_modules
+
 # Crash log files
 crash.log
 
