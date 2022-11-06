@@ -14,6 +14,11 @@ variable "image_uri" {
   description = "The container image deployed in ecr"
 }
 
+variable "image_secret" {
+  type = string
+  description = "Github packages image secret"
+}
+
 variable "vpc_id" {
   type = string
   description = "VPC id created by the network layer"

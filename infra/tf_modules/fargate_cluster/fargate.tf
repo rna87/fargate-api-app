@@ -79,6 +79,9 @@ resource "aws_ecs_task_definition" "app" {
     {
       name : var.containter_name,
       image : var.image_uri,
+      repositoryCredentials : {
+        "credentialsParameter": "${var.image_secret}"},
+      }, 
       networkMode : "awsvpc",
       logConfiguration : {
         logDriver : "awslogs",
