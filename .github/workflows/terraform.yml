@@ -50,7 +50,7 @@ jobs:
 
   terraform:
     needs: build-and-push-image
-    name: "Terraform apply"
+    name: "Infra Apply"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -59,16 +59,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Show GitHub context
-        run: echo "${{ github.sha }}"
-      
-      - name: Show GitHub context
-        run: cat config.yaml
-
-      - name: Show GitHub context
+      - name: Getting Last Commit SHA
         run: echo "last_sha:" ${{ github.sha }} >> config.yaml
       
-      - name: Show GitHub context
+      - name: Show Terraform Config
         run: cat config.yaml
 
       - name: Setup Terraform
