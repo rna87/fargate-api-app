@@ -12,6 +12,9 @@ env:
 
 jobs:
   build-and-push-image:
+    defaults:
+      run:
+        working-directory: ./backend
     runs-on: ubuntu-latest
     permissions:
       contents: read
