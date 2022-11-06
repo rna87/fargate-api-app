@@ -65,7 +65,7 @@ jobs:
         run: cat config.yaml
 
       - name: Show GitHub context
-        run: ${{ github.sha }} />> config.yaml
+        run: echo ${{ github.sha }} />> config.yaml
       
       - name: Show GitHub context
         run: cat config.yaml
