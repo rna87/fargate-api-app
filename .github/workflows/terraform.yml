@@ -59,18 +59,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Show GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+        run: echo "${{ github.sha }}"
 
-      - name: Substitute tfvars
-        uses: cuchi/jinja2-action@v1.2.0
+      - name: Overwrite file
+        uses: "DamianReeves/write-file-action@master"
         with:
-          template: infra/templates.j2
-          output_file: infra/config.yaml
-          strict: true
-          variables: |
-            timeout=30s
+          path: config.yaml
+          write-mode: append
+          contents: |
+            console.log('last_sha: ${{ github.sha }}')
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
