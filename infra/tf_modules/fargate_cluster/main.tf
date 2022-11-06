@@ -48,8 +48,12 @@ resource "aws_apigatewayv2_route" "default_route" {
 }
 
 # API Gateway Default Stage
-resource "aws_apigatewayv2_stage" "Default" {
+resource "aws_apigatewayv2_stage" "default" {
   api_id = aws_apigatewayv2_api.main.id
   name   = "$default"
   auto_deploy = true
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

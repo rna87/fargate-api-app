@@ -96,10 +96,10 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment : [
-        {
-          name : "ENV",
-          value : var.environment
-        }
+        {"name": "ENV", "value": "${var.environment}"},
+        {"name": "PORT", "value": "${tostring(var.app_port)}"},
+        {"name": "URL", "value": "${aws_apigatewayv2_stage.default.invoke_url}"},
+        {"name": "LASTCOMMIT", "value": "fdsafsafsafdasfdsa"}
       ]
     }
   ])

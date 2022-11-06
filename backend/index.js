@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const fs = require('fs');
 const port = process.env.PORT || 3001;
+
+var metadata = JSON.parse(fs.readFileSync('metadata.json', 'utf8'))
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,13 +20,30 @@ app.get("/", async (req, res, next) => {
 
     try {
         res.contentType("application/json").send({ 
-            "Welcoms to 7plus Ltd.! you are visotry number:": Math.floor(Math.random() * 101) 
+            "Hello World! you are visotry number:": Math.floor(Math.random() * 101) 
         })
     } catch (err) {
         next(err);
     }
 });
 
+// status page
+app.get('/status', (req, res) => {
+
+    try {
+        let output = {
+            [metadata.app]: [{
+                "version": metadata.version,
+                "description": metadata.description,
+                "sha": process.env.LASTCOMMIT
+            }]
+        }
+        res.status(200).send(output)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
 app.listen(port, () => {
-    console.log('This 7Plus APP is listening at http://localhost:' + port);
+    console.log('This'+ metadata.app +'is listening at'+ process.env.URL +':' + port);
 });

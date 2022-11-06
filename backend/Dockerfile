@@ -1,7 +1,15 @@
-FROM public.ecr.aws/bitnami/node:14-prod-debian-10
+FROM --platform=linux/amd64 node:fermium-slim
 
-ENV PORT=8080
-EXPOSE 8080
+ARG PORT
+ENV PORT=$PORT
+
+EXPOSE $PORT
+
+ARG LASTCOMMIT
+ENV LASTCOMMIT=$LASTCOMMIT
+
+ARG URL
+ENV URL=$URL
 
 WORKDIR /usr/src/app
 
