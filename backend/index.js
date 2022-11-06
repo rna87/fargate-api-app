@@ -43,6 +43,6 @@ app.get('/status', (req, res) => {
     }
 })
 
-app.listen( () => {
+app.listen(port, () => {
     console.log('This '+ metadata.app +' is listening at '+ process.env.URL);
 });

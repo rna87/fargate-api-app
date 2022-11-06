@@ -12,8 +12,8 @@ jobs:
     name: "Terraform"
     runs-on: ubuntu-latest
     defaults:
-    run:
-      working-directory: ./infra/tf
+      run:
+        working-directory: ./infra/tf
     steps:
       - name: Checkout
         uses: actions/checkout@v3
