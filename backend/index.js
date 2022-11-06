@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const port = process.env.PORT || 3001;
 
 var metadata = JSON.parse(fs.readFileSync('metadata.json', 'utf8'))
 
@@ -44,6 +43,6 @@ app.get('/status', (req, res) => {
     }
 })
 
-app.listen(port, () => {
-    console.log('This'+ metadata.app +'is listening at'+ process.env.URL +':' + port);
+app.listen( () => {
+    console.log('This '+ metadata.app +' is listening at '+ process.env.URL);
 });
