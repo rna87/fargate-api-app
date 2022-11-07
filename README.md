@@ -2,7 +2,6 @@
 
 <a name="readme-top"></a>
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
 [![GithubWorkflow][GithubWorkflow]][GithubWorkflow-url]
 
 
@@ -32,6 +31,8 @@ A simple RestApi that is deployed to AWS Fargate using githuab Actions and Terra
 
 <!-- CONTACT -->
 ## Contact
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 Rana Alwakil - r.alwakil7@gmail.com
 
