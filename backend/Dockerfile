@@ -18,7 +18,6 @@ RUN npm install
 COPY healthcheck.js healthcheck.js
 COPY . .
 
-RUN npm link
 HEALTHCHECK CMD healthcheck
 
 CMD ["npm", "start"]
