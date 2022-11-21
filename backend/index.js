@@ -46,7 +46,6 @@ app.get('/status', (req, res) => {
 })
 
 // healthcheck
-const express = require('express');
 const http = require('http');
 
 const router = express.Router();
