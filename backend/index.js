@@ -46,7 +46,7 @@ app.get('/status', (req, res) => {
 
 // healthcheck
 app.get('/health', (resp) => {
-    if (resp.statusCode === 200) process.exit(0);
+    if (resp.statusCode == 200) process.exit(0);
     else process.exit(1);
 })
 
