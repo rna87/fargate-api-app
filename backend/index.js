@@ -44,8 +44,6 @@ app.get('/status', (req, res) => {
     }
 })
 
-app.use('/healthcheck', require('healthcheck'));
-
 app.listen(port, () => {
     console.log('This '+ metadata.app +' is listening at '+ process.env.URL);
 });
