@@ -15,9 +15,6 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm install
-COPY healthcheck.js healthcheck.js
 COPY . .
-
-HEALTHCHECK CMD healthcheck
 
 CMD ["npm", "start"]

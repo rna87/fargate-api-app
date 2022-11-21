@@ -4,8 +4,7 @@
     "description": "Hello-world api app",
     "main": "index.js",
     "scripts": {
-      "start": "node index.js",
-      "healthcheck": "node healthcheck.js"
+      "start": "node index.js"
     },
     "keywords": [],
     "author": "Rana Alwakil",

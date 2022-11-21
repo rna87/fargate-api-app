@@ -44,6 +44,12 @@ app.get('/status', (req, res) => {
     }
 })
 
+// healthcheck
+app.get('/health', (resp) => {
+    if (resp.statusCode === 200) process.exit(0);
+    else process.exit(1);
+})
+
 app.listen(port, () => {
     console.log('This '+ metadata.app +' is listening at '+ process.env.URL);
 });
