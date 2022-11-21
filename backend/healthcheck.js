@@ -15,8 +15,14 @@ app.use(function (req, res, next) {
     next()
 });
 
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
+});
 
-get(`${process.env.URL}/health`, (resp) => {
+// healthcheck
+app.get('/health', (resp) => {
     if (resp.statusCode === 200) process.exit(0);
     else process.exit(1);
-});
+})
