@@ -1,7 +1,7 @@
 {
     "name": "hello-world-app",
     "version": "1.0.0",
-    "description": "Innablr Hello-world api app",
+    "description": "Hello-world api app",
     "main": "index.js",
     "scripts": {
       "start": "node index.js",
