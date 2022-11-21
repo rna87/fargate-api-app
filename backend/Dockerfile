@@ -15,7 +15,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm install
-COPY /bin bin
+COPY healthcheck.js healthcheck.js
 COPY . .
 
 RUN npm link
