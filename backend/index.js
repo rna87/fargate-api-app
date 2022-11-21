@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const port = process.env.PORT || 3001;
+const healthChecks = require("healthchecks-external")
 
 var metadata = JSON.parse(fs.readFileSync('metadata.json', 'utf8'))
 
@@ -45,10 +46,22 @@ app.get('/status', (req, res) => {
 })
 
 // healthcheck
-app.get('/health', (resp) => {
-    if (resp.statusCode == 200) process.exit(0);
-    else process.exit(1);
-})
+const express = require('express');
+const http = require('http');
+
+const router = express.Router();
+
+router.use((req, res, next) => {
+    res.header('Access-Control-Allow-Methods', 'GET');
+    next();
+});
+
+router.get('/health', (req, res) => {
+    res.status(200).send('Ok');
+});
+
+app.use('/api/v1', router);
+
 
 app.listen(port, () => {
     console.log('This '+ metadata.app +' is listening at '+ process.env.URL);
