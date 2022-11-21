@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 });
 
 
-get(`${process.env.SERVER_URL}/health`, (resp) => {
+get(`${process.env.URL}/health`, (resp) => {
     if (resp.statusCode === 200) process.exit(0);
     else process.exit(1);
 });
