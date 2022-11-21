@@ -7,6 +7,9 @@
       "start": "node index.js",
       "test": "jest"
     },
+    "bin": {
+      "healthcheck": "./bin/healthcheck.mjs"
+    },
     "keywords": [],
     "author": "Rana Alwakil",
     "dependencies": {

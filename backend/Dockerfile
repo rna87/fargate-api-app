@@ -15,6 +15,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm install
+COPY /bin bin
 COPY . .
+
+RUN npm link
+HEALTHCHECK CMD healthcheck
 
 CMD ["npm", "start"]
