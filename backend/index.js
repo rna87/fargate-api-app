@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const port = process.env.PORT || 3001;
-const healthChecks = require("healthchecks-external")
 
 var metadata = JSON.parse(fs.readFileSync('metadata.json', 'utf8'))
 
