@@ -3,7 +3,7 @@ terraform {
     organization = "RNA"
 
     workspaces {
-      name = "production"
+      name = "prod"
     }
   }
   required_providers {
