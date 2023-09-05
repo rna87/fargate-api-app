@@ -29,7 +29,7 @@ locals {
 
 
 module "networking" {
-  source = "../tf_modules/networking"
+  source = "./tf_modules/networking"
   aws_region = local.config["aws_region"]
   environment = local.config["environment"]
   project_name = local.config["project_name"]
@@ -37,7 +37,7 @@ module "networking" {
 }
 
 module "fargate_cluster" {
-  source = "../tf_modules/fargate_cluster"
+  source = "./tf_modules/fargate_cluster"
   aws_region = local.config["aws_region"]
   environment = local.config["environment"]
   project_name = local.config["project_name"]
